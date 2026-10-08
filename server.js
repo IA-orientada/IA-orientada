@@ -15,8 +15,7 @@ app.post('/api/chat', async (req, res) => {
         const systemMessage = messages.find(m => m.role === 'system');
         const systemInstruction = systemMessage ? systemMessage.content : "Eres un tutor socrático.";
 
-        // 2. Filtramos el historial para mandar solo los mensajes de usuario y modelo,
-        // asegurando que comience con un mensaje de usuario válido para Gemini.
+        // 2. Filtramos el historial para mandar solo los mensajes de usuario y modelo
         const chatHistory = messages
             .filter(m => m.role !== 'system')
             .map(m => ({
@@ -24,7 +23,8 @@ app.post('/api/chat', async (req, res) => {
                 parts: [{ text: m.content }]
             }));
 
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+        // Usamos gemini-1.5-pro (o gemini-1.5-flash actualizado) para evitar el error 404
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
