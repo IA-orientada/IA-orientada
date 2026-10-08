@@ -23,8 +23,8 @@ app.post('/api/chat', async (req, res) => {
                 parts: [{ text: m.content }]
             }));
 
-        // Usamos gemini-1.5-pro (o gemini-1.5-flash actualizado) para evitar el error 404
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-pro:generateContent?key=${apiKey}`, {
+        // Usamos gemini-2.5-flash para conectar correctamente con la versión actual de la API
+        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
