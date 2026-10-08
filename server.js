@@ -21,23 +21,38 @@ app.post('/api/chat', async (req, res) => {
                 parts: [{ text: m.content }]
             }));
 
-        // Usamos el identificador actual requerido por la API
-        const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-3.8-flash:generateContent?key=${apiKey}`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                system_instruction: {
-                    parts: { text: systemInstruction }
-                },
-                contents: chatHistory
-            })
-        });
+        // Lista de modelos a intentar en orden de preferencia
+        const modelsToTry = ['gemini-3.8-flash', 'gemini-1.5-flash', 'gemini-1.5-pro'];
+        let response = null;
+        let data = null;
 
-        const data = await response.json();
+        for (const model of modelsToTry) {
+            const url = `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`;
+            
+            response = await fetch(url, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    system_instruction: {
+                        parts: { text: systemInstruction }
+                    },
+                    contents: chatHistory
+                })
+            });
 
-        if (!response.ok) {
-            console.error("Error detallado de Gemini:", data);
-            throw new Error(`Error de la API de Gemini: ${response.status}`);
+            data = await response.json();
+
+            // Si la respuesta es exitosa, rompemos el ciclo y continuamos
+            if (response.ok) {
+                break;
+            } else {
+                console.warn(`Modelo ${model} falló con estado ${response.status}. Intentando siguiente...`);
+            }
+        }
+
+        if (!response || !response.ok) {
+            console.error("Error detallado de Gemini (todos los modelos fallaron):", data);
+            throw new Error(`Error de la API de Gemini: ${response ? response.status : 'Desconocido'}`);
         }
 
         const aiText = data.candidates[0].content.parts[0].text;
