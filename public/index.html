@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tutor Socrático</title>
+    <title>Tutor Socrático | Gemini Style</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -31,7 +31,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Inter', sans-serif; }
-        /* Scrollbar personalizado estilo Gemini */
         ::-webkit-scrollbar { width: 6px; height: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 9999px; }
@@ -62,12 +61,10 @@
             </div>
         </div>
 
-        <!-- Controles Superiores (Modo Oscuro / Claro) -->
+        <!-- Controles Superiores -->
         <div class="flex items-center space-x-2">
             <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-800 transition-colors text-gray-600 dark:text-gray-300 focus:outline-none" title="Cambiar modo claro/oscuro">
-                <!-- Icono Sol -->
                 <svg id="sun-icon" class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                <!-- Icono Luna -->
                 <svg id="moon-icon" class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
             </button>
         </div>
@@ -77,7 +74,7 @@
     <main class="flex-1 max-w-3xl w-full mx-auto px-4 sm:px-6 py-6 flex flex-col justify-between">
         <div id="chat-container" class="space-y-6 overflow-y-auto pr-1 pb-4 flex-1 scroll-smooth">
             <!-- Mensaje de bienvenida inicial -->
-            <div class="flex items-start space-x-4 animate-fadeIn">
+            <div class="flex items-start space-x-4">
                 <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-sm mt-1">
                     ✦
                 </div>
@@ -90,7 +87,7 @@
             </div>
         </div>
 
-        <!-- Indicador de escritura (Elegante tipo Gemini) -->
+        <!-- Indicador de escritura -->
         <div id="typing-indicator" class="hidden flex items-start space-x-4 mb-4">
             <div class="w-8 h-8 rounded-full bg-gradient-to-tr from-blue-600 to-indigo-600 flex items-center justify-center text-white text-xs font-bold shrink-0 shadow-sm mt-1">
                 ✦
@@ -102,7 +99,7 @@
             </div>
         </div>
 
-        <!-- Área de Entrada Flotante Estilo Gemini (Responsive y ergonómica) -->
+        <!-- Área de Entrada Flotante -->
         <div class="pt-4 mt-auto sticky bottom-2">
             <form id="chat-form" class="relative flex items-center bg-white dark:bg-gemini-darkCard border border-gray-300 dark:border-gray-700 rounded-3xl shadow-lg focus-within:border-blue-500 dark:focus-within:border-blue-500 transition-all p-1.5 sm:p-2">
                 <input 
@@ -116,19 +113,19 @@
                 <button 
                     type="submit" 
                     id="send-button"
-                    class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white p-2.5 rounded-full transition-all shadow-md flex items-center justify-center shrink-0 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                    class="bg-blue-600 hover:bg-blue-700 active:scale-95 text-white p-2.5 rounded-full transition-all shadow-md flex items-center justify-center shrink-0 cursor-pointer"
                     title="Enviar mensaje"
                 >
                     <svg class="w-4 h-4 transform rotate-90" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path></svg>
                 </button>
             </form>
             <div class="text-center mt-2">
-                <p class="text-[11px] text-gray-400 dark:text-gray-500">El tutor socrático fomenta tu razonamiento crítico mediante preguntas reflexivas.</p>
+                <p class="text-[11px] text-gray-400 dark:text-gray-500">El tutor socrático fomenta tu razonamiento crítico mediante preguntas reflexivas; "El tutor socrático" puede cometer errores. Considera verificar la información importante.</p>
             </div>
         </div>
     </main>
 
-    <!-- Lógica de Interfaz, Tema y Comunicación -->
+    <!-- Lógica de Interfaz y Formateador de Caracteres -->
     <script>
         const chatContainer = document.getElementById('chat-container');
         const chatForm = document.getElementById('chat-form');
@@ -137,7 +134,6 @@
         const themeToggle = document.getElementById('theme-toggle');
         const htmlElement = document.documentElement;
 
-        // Manejo de Modo Oscuro / Claro
         themeToggle.addEventListener('click', () => {
             if (htmlElement.classList.contains('dark')) {
                 htmlElement.classList.remove('dark');
@@ -148,18 +144,16 @@
             }
         });
 
-        // Recordar preferencia guardada o usar por defecto oscuro
         if (localStorage.getItem('theme') === 'light') {
             htmlElement.classList.remove('dark');
         } else {
             htmlElement.classList.add('dark');
         }
 
-        // Historial socrático inicial
         let messages = [
             {
                 role: 'system',
-                content: 'Eres un tutor socrático experto, empático y paciente. Tu objetivo fundamental NUNCA es dar respuestas directas ni resolver los problemas por el estudiante. En su lugar, debes guiarlo a través de preguntas orientadoras, contrapreguntas y pequeños retos conceptuales para que él mismo descubra la solución. Fomenta el pensamiento crítico, celebra sus avances lógicos y haz una sola pregunta a la vez para no abrumarlo.'
+                content: 'Eres un tutor socrático experto, empático y paciente. Tu objetivo fundamental NUNCA es dar respuestas directas ni resolver los problemas por el estudiante. En su lugar, debes guiarlo a través de preguntas orientadoras, contrapreguntas y pequeños retos conceptuales para que él mismo descubra la solución. Fomenta el pensamiento crítico, celebra sus avances lógicos y haz una sola pregunta a la vez para no abrumarlo. Evita usar etiquetas complejos de LaTeX como \\Box o símbolos matemáticos pesados; utiliza texto claro o símbolos simples si es necesario.'
             },
             {
                 role: 'assistant',
@@ -172,12 +166,10 @@
             const text = userInput.value.trim();
             if (!text) return;
 
-            // Mostrar mensaje del usuario
             appendMessage(text, 'user');
             messages.push({ role: 'user', content: text });
             userInput.value = '';
             
-            // Mostrar indicador de escritura
             typingIndicator.classList.remove('hidden');
             scrollToBottom();
 
@@ -191,7 +183,7 @@
                 const data = await response.json();
                 typingIndicator.classList.add('hidden');
 
-                if (response.ok && data.choices && data.choices[0]) {
+            if (response.ok && data.choices && data.choices[0]) {
                     const aiReply = data.choices[0].message.content;
                     appendMessage(aiReply, 'assistant');
                     messages.push({ role: 'assistant', content: aiReply });
@@ -204,6 +196,25 @@
             }
             scrollToBottom();
         });
+
+        // Función para limpiar y formatear negritas y símbolos especiales de la IA
+        function formatMarkdown(text) {
+            // Escapar HTML básico por seguridad
+            let safeText = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+
+            // Reemplazar **texto** por <strong>texto</strong>
+            safeText = safeText.replace(/\*\*(.*?)\*\*/g, '<strong class="font-semibold">$1</strong>');
+
+            // Limpiar símbolos de fórmulas o cajas molestas de LaTeX si la IA los llega a emitir
+            safeText = safeText.replace(/\\Box/g, '[ ? ]');
+            safeText = safeText.replace(/\$/g, '');
+
+            // Reemplazar saltos de línea por <br>
+            return safeText.replace(/\n/g, '<br>');
+        }
 
         function appendMessage(text, sender) {
             const isUser = sender === 'user';
@@ -224,7 +235,12 @@
                     ? 'bg-blue-600 text-white rounded-tr-sm' 
                     : 'bg-white dark:bg-gemini-darkCard text-gray-800 dark:text-gray-200 border border-gray-200/80 dark:border-gray-800 rounded-tl-sm'
             }`;
-            bubble.innerText = text;
+
+            if (isUser) {
+                bubble.innerText = text; // Los mensajes del usuario van planos por seguridad
+            } else {
+                bubble.innerHTML = formatMarkdown(text); // Los mensajes de la IA se procesan para mostrar negritas limpias
+            }
 
             wrapper.appendChild(avatar);
             wrapper.appendChild(bubble);
